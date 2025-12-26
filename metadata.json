@@ -1,0 +1,8 @@
+{
+  "name": "OmniDock Tactical",
+  "description": "Multi-module AI suite with Deep Reasoning, Real-time Audio, and Global Intelligence.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
