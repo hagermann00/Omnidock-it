@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { getAIClient } from '../../services/ai';
 import { FloaterFrame } from '../../components/FloaterFrame';
+import { useSystem } from '../../context/SystemContext';
 import { CaptureResult } from '../../../types';
 
 export const IntelModule = () => {
-    const [captures, setCaptures] = useState<CaptureResult[]>([]);
+    const { captures, addCapture } = useSystem();
     const [isLoading, setIsLoading] = useState(false);
     const ai = getAIClient();
 
@@ -34,7 +35,7 @@ export const IntelModule = () => {
                 timestamp: Date.now(),
                 sources: result.sources as any
             };
-            setCaptures([newCap, ...captures]);
+            addCapture(newCap);
         } catch (e) {
             console.error(e);
         } finally {

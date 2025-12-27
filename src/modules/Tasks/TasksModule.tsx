@@ -1,19 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FloaterFrame } from '../../components/FloaterFrame';
-import { Task } from '../../../types';
+import { useSystem } from '../../context/SystemContext';
 
 export const TasksModule = () => {
-    const [tasks, setTasks] = useState<Task[]>([]);
-
-    const addTask = (text: string) => {
-        if (!text.trim()) return;
-        setTasks([{
-            id: Date.now().toString(),
-            text,
-            completed: false,
-            timestamp: Date.now()
-        }, ...tasks]);
-    };
+    const { tasks, addTask } = useSystem();
 
     return (
         <FloaterFrame

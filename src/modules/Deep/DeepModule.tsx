@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { getAIClient } from '../../services/ai';
 import { FloaterFrame } from '../../components/FloaterFrame';
-import { ChatMessage } from '../../../types';
+import { useSystem } from '../../context/SystemContext';
 
 export const DeepModule = () => {
-    const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+    const { chatHistory, addChatMessage, setChatHistory } = useSystem();
     const [isLoading, setIsLoading] = useState(false);
     const ai = getAIClient();
 
@@ -20,15 +20,14 @@ export const DeepModule = () => {
     };
 
     const handleChat = async (msg: string) => {
-        const newHistory: ChatMessage[] = [...chatHistory, { role: 'user', text: msg }];
-        setChatHistory(newHistory);
+        addChatMessage({ role: 'user', text: msg });
         setIsLoading(true);
         try {
             const reply = await runDeepIntel(msg);
-            setChatHistory([...newHistory, { role: 'model', text: reply || '' }]);
+            addChatMessage({ role: 'model', text: reply || '' });
         } catch (e) {
             console.error(e);
-            setChatHistory([...newHistory, { role: 'model', text: 'Error: Connection interrupted.' }]);
+            addChatMessage({ role: 'model', text: 'Error: Connection interrupted.' });
         } finally {
             setIsLoading(false);
         }
